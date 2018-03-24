@@ -1,8 +1,10 @@
 package main
 
 import (
-	"time"
+	"fmt"
 
+	"github.com/ChimeraCoder/anaconda"
+	"github.com/mattn/go-runewidth"
 	termbox "github.com/nsf/termbox-go"
 )
 
@@ -25,8 +27,9 @@ func (s *screen) renderLine(x, y int, str string) {
 
 	runes := []rune(str)
 
-	for i := 0; i < len(runes); i++ {
-		termbox.SetCell(x+i, y, runes[i], s.color, s.bgColor)
+	for _, r := range runes {
+		termbox.SetCell(x, y, r, s.color, s.bgColor)
+		x += runewidth.RuneWidth(r)
 	}
 }
 
@@ -34,8 +37,22 @@ func (s *screen) render(buf *buffer) {
 
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 
-	s.renderLine(0, 0, "Press ESC to exit.")
-	s.renderLine(0, 0, time.Now().Format(time.UnixDate))
+	list := buf.getList()
+	i := 0
+	for _, item := range list {
+
+		if item == nil {
+			continue
+		}
+
+		v := item.(anaconda.Tweet)
+
+		s.renderLine(0, i*3+0, fmt.Sprintf("%s %s (%s)", v.User.Name, v.User.ScreenName, v.CreatedAt))
+		s.renderLine(0, i*3+1, v.Text)
+		s.renderLine(0, i*3+2, "------------------------------------------------")
+
+		i++
+	}
 
 	termbox.Flush()
 }

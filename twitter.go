@@ -23,7 +23,7 @@ func newTwitter() *twitter {
 	t.updateCh = make(chan bool)
 
 	t.screen = newScreen()
-	t.buffer = newBuffer(256)
+	t.buffer = newBuffer(10)
 
 	return t
 }
@@ -49,6 +49,12 @@ func (t *twitter) userStream() {
 			config.AccessTokenSecret,
 			config.ConsumerKey,
 			config.ConsumerSecret)
+
+		list, _ := api.GetHomeTimeline(url.Values{})
+		for _, item := range list {
+			t.buffer.insert(item)
+		}
+		t.updateCh <- true
 
 		stream := api.UserStream(url.Values{})
 

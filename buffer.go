@@ -40,6 +40,7 @@ func (b *buffer) getList() []interface{} {
 		if idx == b.endIndeex {
 			break
 		}
+		i++
 	}
 
 	return r
