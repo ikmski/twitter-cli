@@ -4,7 +4,6 @@ import (
 	"net/url"
 
 	"github.com/ChimeraCoder/anaconda"
-	termbox "github.com/nsf/termbox-go"
 )
 
 type twitter struct {
@@ -12,35 +11,21 @@ type twitter struct {
 	buffer *buffer
 
 	updateCh chan bool
-	eventCh  chan termbox.Event
 }
 
 func newTwitter() *twitter {
 
 	t := new(twitter)
 
-	t.eventCh = make(chan termbox.Event)
 	t.updateCh = make(chan bool)
 
 	t.screen = newScreen()
-	t.buffer = newBuffer(32)
+	t.buffer = newBuffer(10)
 
 	return t
 }
 
 func (t *twitter) userStream() {
-
-	err := termbox.Init()
-	if err != nil {
-		panic(err)
-	}
-	defer termbox.Close()
-
-	go func() {
-		for {
-			t.eventCh <- termbox.PollEvent()
-		}
-	}()
 
 	go func() {
 
@@ -73,33 +58,12 @@ func (t *twitter) userStream() {
 
 	}()
 
-	t.screen.render(t.buffer)
-
-mainloop:
 	for {
 
 		select {
-		case e := <-t.eventCh:
-
-			switch e.Type {
-
-			case termbox.EventKey:
-
-				switch e.Key {
-
-				case termbox.KeyEsc:
-					break mainloop
-
-				default:
-
-				}
-
-			default:
-
-			}
 
 		case <-t.updateCh:
-			t.screen.render(t.buffer)
+			t.screen.render(t.buffer.toList())
 
 		}
 	}
