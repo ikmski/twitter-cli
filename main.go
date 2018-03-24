@@ -2,12 +2,10 @@ package main
 
 import (
 	"fmt"
-	"net/url"
 	"os"
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
-	"github.com/ChimeraCoder/anaconda"
 	"github.com/urfave/cli"
 )
 
@@ -44,24 +42,10 @@ func getConfigFilePath() string {
 
 func mainAction(c *cli.Context) error {
 
-	api := anaconda.NewTwitterApiWithCredentials(
-		config.AccessToken,
-		config.AccessTokenSecret,
-		config.ConsumerKey,
-		config.ConsumerSecret)
+	t := newTwitter()
 
-	s := api.UserStream(url.Values{})
+	t.userStream()
 
-	for t := range s.C {
-
-		switch v := t.(type) {
-
-		case anaconda.Tweet:
-			fmt.Printf("%-15s: %s\n", v.User.ScreenName, v.Text)
-
-		}
-
-	}
 	return nil
 }
 
