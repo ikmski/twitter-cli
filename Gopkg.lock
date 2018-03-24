@@ -8,14 +8,56 @@
   version = "v0.3.0"
 
 [[projects]]
+  name = "github.com/ChimeraCoder/anaconda"
+  packages = ["."]
+  revision = "9c68684170b980d5b4c2ed08fae9b530e659904d"
+  version = "v2.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/ChimeraCoder/tokenbucket"
+  packages = ["."]
+  revision = "c5a927568de7aad8a58127d80bcd36ca4e71e454"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/azr/backoff"
+  packages = ["."]
+  revision = "53511d3c733003985b0b76f733df1f4d0095ee6a"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/dustin/go-jsonpointer"
+  packages = ["."]
+  revision = "ba0abeacc3dcca5b9b20f31509c46794edbc9965"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/dustin/gojson"
+  packages = ["."]
+  revision = "2e71ec9dd5adce3b168cd0dbde03b5cc04951c30"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/garyburd/go-oauth"
+  packages = ["oauth"]
+  revision = "bca2e7f09a178fd36b034107a00e2323bca6a82e"
+
+[[projects]]
   name = "github.com/urfave/cli"
   packages = ["."]
   revision = "cfb38830724cc34fedffe9a2a29fb54fa9169cd1"
   version = "v1.20.0"
 
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/net"
+  packages = ["context"]
+  revision = "6078986fec03a1dcc236c34816c71b0e05018fda"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "bfcb016062907ffda6871cb856d2f789771c3c59887f2231dfb5cc9070e66735"
+  inputs-digest = "caed868cd5f71b4a8514e8bc5436f01f0f36522cfeb94055dca24a81e96ac178"
   solver-name = "gps-cdcl"
   solver-version = 1
