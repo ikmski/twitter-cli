@@ -37,21 +37,22 @@ func (s *screen) render(buf *buffer) {
 
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 
-	list := buf.getList()
-	i := 0
-	for _, item := range list {
+	list := buf.toList()
+	j := 0
+	for i := len(list) - 1; i >= 0; i-- {
 
+		var item = list[i]
 		if item == nil {
 			continue
 		}
 
 		v := item.(anaconda.Tweet)
 
-		s.renderLine(0, i*3+0, fmt.Sprintf("%s %s (%s)", v.User.Name, v.User.ScreenName, v.CreatedAt))
-		s.renderLine(0, i*3+1, v.Text)
-		s.renderLine(0, i*3+2, "------------------------------------------------")
+		s.renderLine(0, j*4+0, fmt.Sprintf("%s %s (%s)", v.User.Name, v.User.ScreenName, v.CreatedAt))
+		s.renderLine(4, j*4+1, v.FullText)
+		s.renderLine(0, j*4+2, "------------------------------------------------")
 
-		i++
+		j++
 	}
 
 	termbox.Flush()

@@ -23,7 +23,7 @@ func newTwitter() *twitter {
 	t.updateCh = make(chan bool)
 
 	t.screen = newScreen()
-	t.buffer = newBuffer(10)
+	t.buffer = newBuffer(32)
 
 	return t
 }
@@ -51,8 +51,8 @@ func (t *twitter) userStream() {
 			config.ConsumerSecret)
 
 		list, _ := api.GetHomeTimeline(url.Values{})
-		for _, item := range list {
-			t.buffer.insert(item)
+		for i := len(list) - 1; i >= 0; i-- {
+			t.buffer.push(list[i])
 		}
 		t.updateCh <- true
 
@@ -64,7 +64,7 @@ func (t *twitter) userStream() {
 
 			case anaconda.Tweet:
 
-				t.buffer.insert(content)
+				t.buffer.push(content)
 				t.updateCh <- true
 
 			}

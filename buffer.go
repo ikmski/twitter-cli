@@ -7,28 +7,28 @@ type buffer struct {
 	data       []interface{}
 }
 
-func newBuffer(sz int) *buffer {
+func newBuffer(size int) *buffer {
 
 	b := new(buffer)
-	b.size = sz
+	b.size = size
 	b.startIndex = 0
-	b.endIndeex = sz - 1
-	b.data = make([]interface{}, sz, sz)
+	b.endIndeex = 0
+	b.data = make([]interface{}, size, size)
 
 	return b
 }
 
-func (b *buffer) insert(data interface{}) {
+func (b *buffer) push(data interface{}) {
 
 	b.data[b.endIndeex] = data
-	b.endIndeex = b.forwardIndex(b.endIndeex)
+	b.endIndeex = b.getNextIndex(b.endIndeex)
 
 	if b.endIndeex == b.startIndex {
-		b.startIndex = b.forwardIndex(b.startIndex)
+		b.startIndex = b.getNextIndex(b.startIndex)
 	}
 }
 
-func (b *buffer) getList() []interface{} {
+func (b *buffer) toList() []interface{} {
 
 	r := make([]interface{}, b.size, b.size)
 
@@ -36,7 +36,7 @@ func (b *buffer) getList() []interface{} {
 	idx := b.startIndex
 	for {
 		r[i] = b.data[idx]
-		idx = b.forwardIndex(idx)
+		idx = b.getNextIndex(idx)
 		if idx == b.endIndeex {
 			break
 		}
@@ -46,7 +46,7 @@ func (b *buffer) getList() []interface{} {
 	return r
 }
 
-func (b *buffer) forwardIndex(idx int) int {
+func (b *buffer) getNextIndex(idx int) int {
 
 	index := idx
 	index++
