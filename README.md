@@ -1,1 +1,4 @@
 # twitter-cli
+
+## License
+MIT
