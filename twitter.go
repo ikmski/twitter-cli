@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"net/url"
 
 	"github.com/ChimeraCoder/anaconda"
+	"github.com/fatih/color"
 )
 
 type twitter struct {
@@ -47,8 +47,14 @@ func (t *twitter) userStream() {
 
 func output(t anaconda.Tweet) {
 
-	fmt.Printf("%s %s (%s)\n", t.User.Name, t.User.ScreenName, t.CreatedAt)
-	fmt.Printf("%s\n", t.FullText)
-	fmt.Printf("%s\n\n", "------------------------------------------------")
+	date, err := t.CreatedAtTime()
+	if err != nil {
+		return
+	}
+
+	color.New(color.Reset).Printf("%s\n", "---")
+	color.New(color.FgBlue).Printf("%s @%s\n", t.User.Name, t.User.ScreenName)
+	color.New(color.Reset).Printf("  %s\n\n", t.FullText)
+	color.New(color.FgMagenta).Printf("(%s)\n", date.Local().Format("01/02 15:04:05"))
 
 }
