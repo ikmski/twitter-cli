@@ -40,11 +40,25 @@ func getConfigFilePath() string {
 	return filePath
 }
 
-func mainAction(c *cli.Context) error {
+func cmdTimeline(c *cli.Context) error {
 
 	t := newTwitter()
 
 	t.userStream()
+
+	return nil
+}
+
+func cmdSearch(c *cli.Context) error {
+
+	if c.NArg() < 1 {
+		return fmt.Errorf("argument is required")
+	}
+	arg := c.Args().Get(0)
+
+	t := newTwitter()
+
+	t.publicStream(arg)
 
 	return nil
 }
@@ -78,7 +92,20 @@ func main() {
 	app.Description = "command-line twitter client"
 	app.Version = version
 
-	app.Action = mainAction
+	app.Commands = []cli.Command{
+		{
+			Name:   "timeline",
+			Usage:  "show timeline",
+			Action: cmdTimeline,
+		},
+		{
+			Name:   "search",
+			Usage:  "search tweets",
+			Action: cmdSearch,
+		},
+	}
+
+	app.Action = cmdTimeline
 
 	app.RunAndExitOnError()
 }
