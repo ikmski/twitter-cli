@@ -53,8 +53,8 @@ func output(t anaconda.Tweet) {
 	}
 
 	color.New(color.Reset).Printf("%s\n", "---")
-	color.New(color.FgBlue).Printf("%s @%s\n", t.User.Name, t.User.ScreenName)
-	color.New(color.Reset).Printf("  %s\n\n", t.FullText)
+	color.New(color.FgBlue).Printf("%s @%s  ", t.User.Name, t.User.ScreenName)
 	color.New(color.FgMagenta).Printf("(%s)\n", date.Local().Format("01/02 15:04:05"))
+	color.New(color.Reset).Printf("%s\n\n", t.FullText)
 
 }
