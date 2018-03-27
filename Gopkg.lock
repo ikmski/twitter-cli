@@ -38,10 +38,28 @@
   revision = "2e71ec9dd5adce3b168cd0dbde03b5cc04951c30"
 
 [[projects]]
+  name = "github.com/fatih/color"
+  packages = ["."]
+  revision = "507f6050b8568533fb3f5504de8e5205fa62a114"
+  version = "v1.6.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/garyburd/go-oauth"
   packages = ["oauth"]
   revision = "bca2e7f09a178fd36b034107a00e2323bca6a82e"
+
+[[projects]]
+  name = "github.com/mattn/go-colorable"
+  packages = ["."]
+  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
+  version = "v0.0.9"
+
+[[projects]]
+  name = "github.com/mattn/go-isatty"
+  packages = ["."]
+  revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
+  version = "v0.0.3"
 
 [[projects]]
   name = "github.com/urfave/cli"
@@ -55,9 +73,15 @@
   packages = ["context"]
   revision = "6078986fec03a1dcc236c34816c71b0e05018fda"
 
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = ["unix"]
+  revision = "13d03a9a82fba647c21a0ef8fba44a795d0f0835"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "caed868cd5f71b4a8514e8bc5436f01f0f36522cfeb94055dca24a81e96ac178"
+  inputs-digest = "ff0eb057a6c6c312501150f3baaadd45664863a78fbedd6f01cc0b5fa079be88"
   solver-name = "gps-cdcl"
   solver-version = 1
