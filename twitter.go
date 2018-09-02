@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"net/url"
+	"strconv"
+	"strings"
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/fatih/color"
@@ -37,17 +40,31 @@ func (t *twitter) userStream() {
 		output(tweets[i])
 	}
 
-	stream := api.UserStream(url.Values{})
+	cursor, err := api.GetFriendsIds(url.Values{})
+	friendsIds := cursor.Ids
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	var IDs []string
+	for _, id := range friendsIds {
+		IDs = append(IDs, strconv.FormatInt(id, 10))
+	}
+
+	v := url.Values{}
+	v.Set("follow", strings.Join(IDs, ", "))
+	stream := api.PublicStreamFilter(v)
 
 	for content := range stream.C {
 
 		switch tweet := content.(type) {
 
 		case anaconda.Tweet:
-
-			output(tweet)
+			if isFriend(tweet.User.Id, friendsIds) {
+				output(tweet)
+			}
 		}
-
 	}
 
 }
@@ -91,4 +108,13 @@ func output(t anaconda.Tweet) {
 	color.New(color.FgMagenta).Printf("(%s)\n", date.Local().Format("01/02 15:04:05"))
 	color.New(color.Reset).Printf("%s\n\n", t.FullText)
 
+}
+
+func isFriend(id int64, friendsIds []int64) bool {
+	for _, v := range friendsIds {
+		if id == v {
+			return true
+		}
+	}
+	return false
 }
