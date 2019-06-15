@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/user"
 	"path/filepath"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 	"github.com/urfave/cli"
@@ -15,9 +17,11 @@ var (
 )
 
 var config globalConfig
+var auth authentication
 
 const (
-	configFileName = "config.toml"
+	configFileName         = "config.toml"
+	authenticationFileName = "authentication.toml"
 )
 
 func getConfigFilePath() string {
@@ -69,12 +73,8 @@ func main() {
 	_, err := os.Stat(configFile)
 	if err != nil {
 
-		config = getDefaultConfig()
-		err = config.save(configFile)
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
+		fmt.Println(err)
+		os.Exit(1)
 
 	} else {
 
@@ -84,6 +84,19 @@ func main() {
 			os.Exit(1)
 		}
 
+	}
+
+	user, err := user.Current()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	p := strings.Replace(config.AuthenticationFilePath, "~", user.HomeDir, -1)
+	_, err = toml.DecodeFile(p, &auth)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
 	app := cli.NewApp()

@@ -23,10 +23,10 @@ func newTwitter() *twitter {
 func (t *twitter) newApi() *anaconda.TwitterApi {
 
 	return anaconda.NewTwitterApiWithCredentials(
-		config.AccessToken,
-		config.AccessTokenSecret,
-		config.ConsumerKey,
-		config.ConsumerSecret)
+		auth.AccessToken,
+		auth.AccessTokenSecret,
+		auth.ConsumerKey,
+		auth.ConsumerSecret)
 
 }
 
